@@ -41,4 +41,4 @@ readBoundedChan c@BoundedChan{..} = do
 -- the synchronization of the MVars keeps them from overlapping incorrectly
 nextIndex :: BoundedChan a -> Int -> Int
 nextIndex BoundedChan{capacity} i =
-    i + 1 `mod` capacity
+    (i + 1) `mod` capacity
