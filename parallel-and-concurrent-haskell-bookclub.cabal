@@ -18,7 +18,8 @@ build-type:          Simple
 extra-source-files:  CHANGELOG.md, README.md
 
 library
-  exposed-modules: Bound
+  exposed-modules: BoundMVar
+                 , BoundedClass
   -- other-extensions:
   build-depends:       base >=4.12 && <4.13
                      , vector
