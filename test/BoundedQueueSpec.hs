@@ -11,6 +11,7 @@ import Test.Tasty.QuickCheck
 import Test.QuickCheck.Monadic
 import BoundMVar (newBoundedMVar)
 import BoundSTM (newBoundedSTM)
+import BoundTVar (newBoundedTVar)
 import BoundedClass
 import qualified Data.Set as Set
 import Control.Concurrent (forkIO, throwTo, newMVar, modifyMVar_, takeMVar)
@@ -23,7 +24,10 @@ tests =
       -- testProperty "exception safety" $ exceptionSafe $ newBoundedMVar
       , testProperty "sent and received are the same" $ sentAndReceived $ newBoundedSTM
       , testProperty "partitioned order" $ partitionedOrder $ newBoundedSTM
-      -- testProperty "exception safety" $ exceptionSafe $ newBoundedMVar
+      , testProperty "exception safety" $ exceptionSafe $ newBoundedSTM
+      , testProperty "sent and received are the same" $ sentAndReceived $ newBoundedTVar
+      , testProperty "partitioned order" $ partitionedOrder $ newBoundedTVar
+      , testProperty "exception safety" $ exceptionSafe $ newBoundedTVar
       ]
 
 sentAndReceived :: (BoundedChan b) => (Int -> IO (b Int)) -> [Int] -> [Int] -> Property

@@ -21,6 +21,7 @@ library
   exposed-modules: BoundMVar
                  , BoundedClass
                  , BoundSTM
+                 , BoundTVar
   -- other-extensions:
   build-depends:       base >=4.12 && <4.13
                      , vector
