@@ -20,9 +20,11 @@ extra-source-files:  CHANGELOG.md, README.md
 library
   exposed-modules: BoundMVar
                  , BoundedClass
+                 , BoundSTM
   -- other-extensions:
   build-depends:       base >=4.12 && <4.13
                      , vector
+                     , stm
   hs-source-dirs: src
   default-language:    Haskell2010
 
