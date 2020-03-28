@@ -6,6 +6,7 @@ module BoundMVar where
 import BoundedClass
 import Control.Concurrent
 import Control.Concurrent.Chan
+import Control.Exception (mask_)
 import Data.Vector (Vector)
 import qualified Data.Vector as V
 
@@ -27,7 +28,7 @@ newBoundedMVar n = BoundedMVar n <$> newMVar 0 <*> newMVar 0 <*> V.replicateM n 
 -- mvar in that index. If that MVar is full, then write will block. A full
 -- MVar indicates that the index has not yet been read.
 writeBoundedMVar :: BoundedMVar a -> a -> IO ()
-writeBoundedMVar c@BoundedMVar{..} a =
+writeBoundedMVar c@BoundedMVar{..} a = mask_ $
     modifyMVar_ writePos $ \w -> do
       putMVar (contents V.! w) a -- blocks until empty
       pure $ nextIndex c w
@@ -36,7 +37,7 @@ writeBoundedMVar c@BoundedMVar{..} a =
 -- the mvar in that index. If that MVar is not full, then read will block.
 -- A full MVar indicates that the index has not yet been written
 readBoundedMVar :: BoundedMVar a -> IO a
-readBoundedMVar c@BoundedMVar{..} =
+readBoundedMVar c@BoundedMVar{..} = mask_ $
     modifyMVar readPos $ \r -> do
       a <- takeMVar $ contents V.! r
       pure (nextIndex c r, a)

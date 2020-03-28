@@ -21,7 +21,7 @@ tests =
     testGroup "Bounded Queue"
       [ testProperty "sent and received are the same" $ sentAndReceived $ newBoundedMVar
       , testProperty "partitioned order" $ partitionedOrder $ newBoundedMVar
-      -- testProperty "exception safety" $ exceptionSafe $ newBoundedMVar
+      , testProperty "exception safety" $ exceptionSafe $ newBoundedMVar
       , testProperty "sent and received are the same" $ sentAndReceived $ newBoundedSTM
       , testProperty "partitioned order" $ partitionedOrder $ newBoundedSTM
       , testProperty "exception safety" $ exceptionSafe $ newBoundedSTM
@@ -78,7 +78,7 @@ exceptionSafe mkChan xs' = monadicIO $ do
     putStrLn $ "wrote " <> show x
     hFlush stdout
   zs <- liftIO $ newMVar []
-  liftIO $ timeout (1 * 10 ^ 6) $ forever $ do
+  liftIO $ timeout (1 * 10 ^ 4) $ forever $ do
     z <- readChan chan
     putStrLn $ "read " <> show z
     hFlush stdout
