@@ -22,6 +22,7 @@ library
                  , BoundedClass
                  , BoundSTM
                  , BoundTVar
+                 , Async
   -- other-extensions:
   build-depends:       base >=4.12 && <4.13
                      , vector
