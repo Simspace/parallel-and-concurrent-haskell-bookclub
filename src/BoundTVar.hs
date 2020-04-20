@@ -32,6 +32,11 @@ writeBoundedTVar c@BoundedTVar{..} a = do
       Nothing -> writeTVar (contents V.! w) (Just a)
     writeTVar writePos (nextIndex c w)
 
+modifyTVar :: TVar a -> (a -> a) -> STM ()
+modifyTVar t k = do
+    a <- readTVar t
+    writeTVar t $ k a
+
 readBoundedTVar :: BoundedTVar a -> STM a
 readBoundedTVar c@BoundedTVar{..} = do
     r <- readTVar readPos
