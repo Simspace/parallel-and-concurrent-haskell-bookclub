@@ -24,10 +24,12 @@ library
                  , BoundTVar
                  , Async
                  , ChatServer
+                 , FindFile
   -- other-extensions:
   build-depends:       base
                      , async
                      , containers
+                     , directory
                      , network
                      , stm
                      , vector
